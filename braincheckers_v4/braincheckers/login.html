@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin Login — Brain Checkers</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--navy:#f0f3f5;--navy2:#dde7f1;--navy3:#172538;--cyan:#00ddc8;--cyan2:#00a899;--cyan-glow:rgba(0,221,200,.15);--text:#dde8f5;--muted:#6a85a5;--border:rgba(255,255,255,.07);--rose:#ff4d6d;}
+body{font-family:'Nunito',sans-serif;background:var(--navy);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.bg{position:fixed;inset:0;background-image:radial-gradient(circle,rgba(0,221,200,.04) 1px,transparent 1px);background-size:26px 26px;pointer-events:none;}
+
+.login-card{
+  background:var(--navy2);border:1px solid var(--border);border-radius:20px;
+  padding:40px 36px;width:100%;max-width:400px;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  position:relative;z-index:1;
+}
+.logo-wrap{text-align:center;margin-bottom:28px;}
+.logo-wrap img{height:54px;object-fit:contain;margin-bottom:12px;}
+.logo-wrap h2{font-size:16px;font-weight:800;color:var(--text);}
+.logo-wrap p{font-size:12px;color:var(--muted);margin-top:3px;}
+
+.lock-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--cyan),var(--cyan2));display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 20px;box-shadow:0 0 20px var(--cyan-glow);}
+
+label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px;}
+input[type=text],input[type=password]{
+  width:100%;background:var(--navy3);border:1.5px solid var(--border);
+  border-radius:12px;padding:13px 16px;color:var(--text);
+  font-family:'Nunito',sans-serif;font-size:14px;outline:none;
+  transition:.2s;margin-bottom:18px;
+}
+input[type=text]:focus,input[type=password]:focus{border-color:var(--cyan);box-shadow:0 0 0 3px var(--cyan-glow);}
+
+.login-btn{
+  width:100%;background:linear-gradient(135deg,var(--cyan),var(--cyan2));
+  color:var(--navy);border:none;border-radius:12px;padding:14px;
+  font-size:15px;font-family:'Nunito',sans-serif;font-weight:900;
+  cursor:pointer;transition:.18s;
+}
+.login-btn:hover{opacity:.88;transform:translateY(-1px);}
+
+.error-msg{
+  background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.25);
+  border-radius:10px;padding:11px 14px;color:#ff8fa3;
+  font-size:13px;margin-bottom:18px;text-align:center;
+}
+
+.back-link{display:block;text-align:center;margin-top:18px;color:var(--muted);font-size:12px;text-decoration:none;}
+.back-link:hover{color:var(--cyan);}
+
+.hint{font-size:11px;color:var(--muted);text-align:center;margin-top:16px;opacity:.7;}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="login-card">
+  <div class="logo-wrap">
+    <img src="/static/logo.png" alt="Brain Checkers"/>
+    <h2>Admin Portal</h2>
+    <p>Restricted access — company counselors only</p>
+  </div>
+
+  <div class="lock-icon">🔐</div>
+
+  {% if error %}
+  <div class="error-msg">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST" action="/admin/login">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Enter username" autocomplete="off" required/>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Enter password" required/>
+    <button type="submit" class="login-btn">🔓 Login to Admin Panel</button>
+  </form>
+
+  <a href="/" class="back-link">← Back to Booking Chatbot</a>
+  <div class="hint">Default: admin / brain@2026 — change in app.py</div>
+</div>
+</body>
+</html>
