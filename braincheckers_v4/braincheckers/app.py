@@ -19,9 +19,9 @@ FRANCHISES = [
 ]
 
 TESTS_BY_CATEGORY = {
-    "Student":   ["DMIT", "GET", "MET"],
-    "Parent":    ["DMIT", "GET", "MET"],
-    "Corporate": ["SAT", "MAT", "GAT"],
+    "Student":   ["DMIT", " Psychometric Assessment", "Tycoon (Standalone)"],
+    "Parent":    ["DMIT", "Career Planning (Combo)", "Tycoon Combo"],
+    "Corporate": ["Hiring Assessment", "Polaris (Corporate)", "Hiring Assessment (Comparison)"],
 }
 
 # ── DB ──────────────────────────────────────────────────────────────────────
