@@ -1,697 +1,815 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Brain Checkers — Book a Session</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+<title>Brain Checker — Book Your Session</title>
+<link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
-  --bg:#f4f7fb;--surface:#e3d7d7;--surface2:#4db6ac;--surface3:#1a2b3e;--surface4:#213347;
-  --teal:#0af0d8;--teal2:#08c4b0;--teal-dim:rgba(10,240,216,.12);--teal-glow:rgba(10,240,216,.2);
-  --amber:#f59e0b;--amber-dim:rgba(245,158,11,.1);
-  --blue:#4f8ff7;--blue-dim:rgba(79,143,247,.1);
-  --green:#22d87a;--green-dim:rgba(34,216,122,.1);
-  --rose:#f43f72;--rose-dim:rgba(244,63,114,.1);
-  --violet:#a855f7;--violet-dim:rgba(168,85,247,.1);
-  --text:#e2edf8;--muted:#5a7896;--dimtext:#8baec8;
-  --border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.1);
-  --radius:16px;--rad-sm:10px;--rad-xs:8px;
+  /* WhatsApp light palette */
+  --wa-bg:#e5ddd5;
+  --wa-bg-img:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2a99a' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  --wa-header:#075e54;
+  --wa-header-text:#fff;
+  --wa-bubble-in:#fff;
+  --wa-bubble-out:#d9fdd3;
+  --wa-bubble-shadow:0 1px 2px rgba(0,0,0,.13);
+  --wa-input-bg:#fff;
+  --wa-input-border:#dfe5eb;
+  --wa-footer:#f0f2f5;
+  --wa-send:#075e54;
+  --wa-tick:#53bdeb;
+  --ink:#111b21;--ink2:#3b4a54;--ink3:#667781;--ink4:#8696a0;
+  --teal:#075e54;--teal2:#128c7e;--teal3:#25d366;
+  --border:#e9edef;
+  --opt-bg:#f0f2f5;--opt-border:#d1d7db;--opt-sel:#d9fdd3;--opt-sel-border:#25d366;
 }
+[data-theme="dark"]{
+  --wa-bg:#0d1418;
+  --wa-bg-img:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  --wa-header:#1f2c34;
+  --wa-bubble-in:#1f2c34;
+  --wa-bubble-out:#005c4b;
+  --wa-input-bg:#2a3942;
+  --wa-input-border:#2a3942;
+  --wa-footer:#1f2c34;
+  --wa-send:#00a884;
+  --ink:#e9edef;--ink2:#aebac1;--ink3:#8696a0;--ink4:#667781;
+  --border:#2a3942;
+  --opt-bg:#1f2c34;--opt-border:#2a3942;--opt-sel:#005c4b;--opt-sel-border:#00a884;
+}
+
 html,body{height:100%;overflow:hidden;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);display:flex;flex-direction:column;align-items:center;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--wa-bg);background-image:var(--wa-bg-img);display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative;}
 
-/* ── GRID BG ── */
-.grid-bg{position:fixed;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;opacity:.5;}
-.glow-orb{position:fixed;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(10,240,216,.06),transparent 60%);top:-200px;left:50%;transform:translateX(-50%);pointer-events:none;}
-
-/* ── TOPBAR ── */
-.topbar{width:100%;max-width:760px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:10;flex-shrink:0;}
-.topbar img{height:42px;object-fit:contain;}
-.topbar-right{display:flex;align-items:center;gap:10px;}
-.live-pill{display:flex;align-items:center;gap:6px;background:var(--green-dim);border:1px solid rgba(34,216,122,.2);border-radius:20px;padding:5px 12px;}
-.live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,216,122,.6);}60%{box-shadow:0 0 0 5px rgba(34,216,122,0);}}
-.live-pill span{font-size:11px;font-weight:700;color:var(--green);letter-spacing:.4px;}
-.admin-btn{color:var(--muted);font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--border2);border-radius:var(--rad-xs);padding:7px 13px;transition:.2s;letter-spacing:.3px;}
-.admin-btn:hover{color:var(--teal);border-color:rgba(10,240,216,.3);}
-
-/* ── HERO ── */
-.hero{text-align:center;padding:8px 20px 14px;position:relative;z-index:1;flex-shrink:0;}
-.hero h1{font-size:22px;font-weight:900;color:#88a7c5;line-height:1.2;}
-.hero h1 em{font-style:normal;color:var(--teal);}
-.hero p{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:.3px;}
-
-/* ── CHAT WRAP ── */
-.chat-wrap{width:100%;max-width:720px;margin:0 auto;padding:0 12px 12px;display:flex;flex-direction:column;flex:1;min-height:0;position:relative;z-index:1;}
-.chat-box{background:var(--surface);border:1px solid var(--border2);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;flex:1;min-height:0;box-shadow:0 24px 64px rgba(0,0,0,.5);}
-.chat-header{padding:14px 18px;background:linear-gradient(135deg,#0c1928,#0f2239);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;}
-.chat-avatar{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--teal),var(--teal2));display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px var(--teal-glow);flex-shrink:0;}
-.chat-header-info h3{font-size:14px;font-weight:800;color:var(--text);}
-.chat-header-info p{font-size:11px;color:var(--muted);}
-.steps-pill{margin-left:auto;font-size:11px;font-weight:700;color:var(--teal);background:var(--teal-dim);border:1px solid rgba(10,240,216,.2);border-radius:12px;padding:4px 10px;}
-
-/* ── PROGRESS ── */
-.progress-bar{height:2px;background:var(--surface3);flex-shrink:0;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal2));transition:width .5s cubic-bezier(.4,0,.2,1);}
-
-/* ── MESSAGES ── */
-#messages{flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:10px;}
-#messages::-webkit-scrollbar{width:3px;}
-#messages::-webkit-scrollbar-thumb{background:var(--surface4);border-radius:2px;}
-
-/* ── BUBBLE ── */
-.bwrap{display:flex;flex-direction:column;gap:3px;animation:slideUp .25s cubic-bezier(.34,1.56,.64,1);}
-@keyframes slideUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.bwrap.user{align-items:flex-end;}
-.bwrap.bot,.bwrap.error,.bwrap.system{align-items:flex-start;}
-.bubble{max-width:80%;padding:11px 15px;border-radius:16px;font-size:13.5px;line-height:1.6;word-break:break-word;}
-.bubble.bot{background:var(--surface2);border:1px solid var(--border);border-bottom-left-radius:4px;color:var(--text);}
-.bubble.user{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#080f1a;font-weight:700;border-bottom-right-radius:4px;}
-.bubble.error{background:var(--rose-dim);border:1px solid rgba(244,63,114,.2);border-bottom-left-radius:4px;color:#fc8fae;}
-.btime{font-size:10px;color:var(--muted);padding:0 4px;}
-
-/* ── TYPING ── */
-.typing{display:flex;gap:5px;align-items:center;background:var(--surface2);border:1px solid var(--border);padding:12px 16px;border-radius:16px;border-bottom-left-radius:4px;width:fit-content;}
-.typing span{width:6px;height:6px;background:var(--teal);border-radius:50%;animation:bounce .9s infinite;}
-.typing span:nth-child(2){animation-delay:.18s;}
-.typing span:nth-child(3){animation-delay:.36s;}
-@keyframes bounce{0%,100%{transform:translateY(0);opacity:.3;}50%{transform:translateY(-5px);opacity:1;}}
-
-/* ── CARD BASE ── */
-.card{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);padding:16px;max-width:92%;animation:slideUp .3s ease;}
-.card-title{font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;margin-bottom:12px;}
-
-/* ── CATEGORY CARD ── */
-.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
-.cat-btn{border:2px solid var(--border2);border-radius:14px;padding:16px 10px;text-align:center;cursor:pointer;transition:.2s;background:var(--surface3);position:relative;overflow:hidden;}
-.cat-btn::before{content:'';position:absolute;inset:0;opacity:0;transition:.2s;}
-.cat-btn.student::before{background:radial-gradient(circle at 50% 0,rgba(10,240,216,.15),transparent 70%);}
-.cat-btn.parent::before{background:radial-gradient(circle at 50% 0,rgba(168,85,247,.15),transparent 70%);}
-.cat-btn.corporate::before{background:radial-gradient(circle at 50% 0,rgba(245,158,11,.15),transparent 70%);}
-.cat-btn:hover::before{opacity:1;}
-.cat-btn.student:hover{border-color:var(--teal);transform:translateY(-2px);}
-.cat-btn.parent:hover{border-color:var(--violet);transform:translateY(-2px);}
-.cat-btn.corporate:hover{border-color:var(--amber);transform:translateY(-2px);}
-.cat-icon{font-size:28px;margin-bottom:8px;}
-.cat-name{font-size:12.5px;font-weight:800;color:var(--text);}
-.cat-sub{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4;}
-
-/* ── TEST CARD ── */
-.test-grid{display:flex;flex-direction:column;gap:8px;}
-.test-btn{display:flex;align-items:center;gap:12px;background:var(--surface3);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:.2s;}
-.test-btn:hover{transform:translateX(3px);}
-.test-btn.dmit:hover{border-color:var(--teal);background:var(--teal-dim);}
-.test-btn.get:hover{border-color:var(--violet);background:var(--violet-dim);}
-.test-btn.met:hover{border-color:var(--amber);background:var(--amber-dim);}
-.test-btn.sat:hover{border-color:var(--blue);background:var(--blue-dim);}
-.test-btn.mat:hover{border-color:var(--green);background:var(--green-dim);}
-.test-btn.gat:hover{border-color:var(--rose);background:var(--rose-dim);}
-.test-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;font-weight:900;}
-.test-info .test-name{font-size:13px;font-weight:800;color:var(--text);}
-.test-info .test-desc{font-size:11px;color:var(--muted);margin-top:2px;}
-.test-badge{margin-left:auto;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;}
-.test-arrow{margin-left:auto;color:var(--muted);font-size:16px;transition:.2s;}
-.test-btn:hover .test-arrow{color:var(--text);transform:translateX(2px);}
-
-/* ── MODE CARD ── */
-.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.mode-btn{border:2px solid var(--border2);border-radius:14px;padding:18px 14px;text-align:center;cursor:pointer;transition:.25s;background:var(--surface3);}
-.mode-btn.online:hover{border-color:var(--teal);background:var(--teal-dim);transform:translateY(-3px);}
-.mode-btn.offline:hover{border-color:var(--green);background:var(--green-dim);transform:translateY(-3px);}
-.mode-icon{font-size:28px;margin-bottom:8px;}
-.mode-name{font-size:14px;font-weight:800;color:var(--text);}
-.mode-price{font-size:20px;font-weight:900;margin-top:5px;}
-.mode-btn.online .mode-price{color:var(--teal);}
-.mode-btn.offline .mode-price{color:var(--green);}
-.mode-desc{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;}
-.mode-tag{font-size:9px;font-weight:800;padding:3px 8px;border-radius:20px;margin-top:8px;display:inline-block;}
-.mode-btn.online .mode-tag{background:var(--teal-dim);color:var(--teal);border:1px solid rgba(10,240,216,.2);}
-.mode-btn.offline .mode-tag{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,216,122,.2);}
-
-/* ── LOCATION CARD ── */
-.loc-card{border-color:rgba(245,158,11,.2);}
-.loc-card .card-title{color:var(--amber);}
-.loc-detect{display:flex;align-items:center;gap:10px;background:var(--amber-dim);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:12px 14px;cursor:pointer;transition:.2s;margin-bottom:12px;}
-.loc-detect:hover{background:rgba(245,158,11,.18);}
-.loc-detect-info{flex:1;}
-.loc-detect-info .ld-title{font-size:13px;font-weight:800;color:var(--text);}
-.loc-detect-info .ld-sub{font-size:11px;color:var(--muted);margin-top:2px;}
-.loc-detect-icon{font-size:22px;}
-.loc-divider{display:flex;align-items:center;gap:10px;margin:10px 0;}
-.loc-divider span{font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap;}
-.loc-divider::before,.loc-divider::after{content:'';flex:1;height:1px;background:var(--border2);}
-.fr-list{display:flex;flex-direction:column;gap:7px;}
-.fr-item{display:flex;align-items:center;gap:11px;background:var(--surface3);border:1.5px solid var(--border);border-radius:11px;padding:11px 13px;cursor:pointer;transition:.2s;}
-.fr-item:hover{border-color:var(--amber);background:var(--amber-dim);transform:translateX(2px);}
-.fr-ico{width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,.12);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
-.fr-info .fr-name{font-size:12.5px;font-weight:800;color:var(--text);}
-.fr-info .fr-addr{font-size:11px;color:var(--muted);margin-top:1px;}
-.fr-arrow{margin-left:auto;color:var(--muted);}
-.fr-nearest-badge{font-size:9px;background:var(--teal-dim);color:var(--teal);border:1px solid rgba(10,240,216,.2);padding:2px 7px;border-radius:5px;font-weight:800;margin-left:6px;}
-
-/* ── DATE CARD ── */
-.date-card{border-color:rgba(10,240,216,.2);}
-.date-card .card-title{color:var(--teal);}
-.date-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
-@media(max-width:480px){.date-grid{grid-template-columns:repeat(3,1fr);}}
-.date-chip{background:var(--surface3);border:1.5px solid var(--border);border-radius:11px;padding:11px 6px;text-align:center;cursor:pointer;transition:.2s;}
-.date-chip:hover:not(.no-slots){border-color:var(--teal);background:var(--teal-dim);transform:translateY(-2px);}
-.dc-label{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;}
-.dc-num{font-size:20px;font-weight:900;color:var(--text);}
-.dc-mon{font-size:10px;color:var(--muted);}
-.dc-slots{font-size:10px;color:var(--green);font-weight:700;margin-top:2px;}
-.dc-full{font-size:10px;color:var(--rose);font-weight:700;margin-top:2px;}
-.date-chip.no-slots{opacity:.4;cursor:not-allowed;}
-
-/* ── SLOT OPTIONS ── */
-.slot-grid{display:flex;flex-wrap:wrap;gap:7px;}
-.slot-btn{background:var(--surface3);border:1.5px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12.5px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;color:var(--text);cursor:pointer;transition:.2s;}
-.slot-btn:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-dim);}
-
-/* ── QR CARD ── */
-.qr-card{border-color:rgba(79,143,247,.25);background:linear-gradient(135deg,var(--blue-dim),var(--surface2));}
-.qr-card .card-title{color:var(--blue);}
-.qr-amount{font-size:32px;font-weight:900;color:var(--text);text-align:center;margin-bottom:4px;}
-.qr-amount span{color:var(--teal);}
-.qr-img-wrap{display:flex;justify-content:center;margin:12px 0;}
-.qr-img{width:160px;height:160px;border-radius:12px;border:3px solid rgba(255,255,255,.15);object-fit:contain;}
-.upi-box{display:flex;align-items:center;gap:8px;background:rgba(10,240,216,.07);border:1px solid rgba(10,240,216,.18);border-radius:8px;padding:8px 12px;margin-bottom:10px;}
-.upi-id{font-family:'Space Mono',monospace;font-size:12px;color:var(--teal);flex:1;}
-.copy-btn{background:none;border:none;cursor:pointer;font-size:14px;transition:.2s;padding:2px 6px;border-radius:6px;}
-.copy-btn:hover{background:var(--teal-dim);}
-.qr-hint{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.5;}
-.confirm-pay-btn{width:100%;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#080f1a;border:none;border-radius:10px;padding:13px;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;cursor:pointer;margin-top:12px;transition:.18s;letter-spacing:.3px;}
-.confirm-pay-btn:hover{opacity:.88;transform:translateY(-1px);}
-
-/* ── MEET CARD ── */
-.meet-card{background:linear-gradient(135deg,rgba(59,130,246,.1),var(--surface2));border-color:rgba(79,143,247,.3);}
-.meet-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-.meet-ico{width:38px;height:38px;border-radius:10px;background:rgba(79,143,247,.15);display:flex;align-items:center;justify-content:center;font-size:18px;}
-.meet-head-info h4{font-size:14px;font-weight:800;color:var(--text);}
-.meet-head-info p{font-size:11px;color:var(--muted);}
-.meet-link-box{background:rgba(79,143,247,.08);border:1px solid rgba(79,143,247,.2);border-radius:8px;padding:9px 12px;display:flex;align-items:center;gap:8px;margin-bottom:10px;word-break:break-all;}
-.meet-link-box span{font-family:'Space Mono',monospace;font-size:11px;color:#93c5fd;flex:1;}
-.join-btn{width:100%;background:linear-gradient(135deg,#4f8ff7,#2563eb);color:#fff;border:none;border-radius:10px;padding:12px;font-size:13.5px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;cursor:pointer;transition:.18s;}
-.join-btn:hover{opacity:.88;transform:translateY(-1px);}
-.share-row{display:flex;gap:8px;margin-top:8px;}
-.share-btn{flex:1;padding:9px;border-radius:8px;font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;border:none;cursor:pointer;transition:.18s;}
-.wa-btn{background:rgba(34,216,122,.15);color:var(--green);border:1px solid rgba(34,216,122,.25);}
-.wa-btn:hover{background:rgba(34,216,122,.25);}
-
-/* ── ADDRESS CARD ── */
-.addr-card{background:linear-gradient(135deg,var(--amber-dim),var(--surface2));border-color:rgba(245,158,11,.3);}
-.addr-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-.addr-ico{width:38px;height:38px;border-radius:10px;background:var(--amber-dim);display:flex;align-items:center;justify-content:center;font-size:18px;}
-.addr-head-info h4{font-size:14px;font-weight:800;color:var(--text);}
-.addr-head-info p{font-size:11px;color:var(--muted);}
-.addr-line{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:var(--text);line-height:1.5;margin-bottom:8px;}
-.addr-line .al-icon{color:var(--amber);flex-shrink:0;margin-top:1px;}
-.map-btn{width:100%;background:linear-gradient(135deg,var(--amber),#d97706);color:#1a0a00;border:none;border-radius:10px;padding:12px;font-size:13.5px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;cursor:pointer;transition:.18s;margin-top:8px;}
-.map-btn:hover{opacity:.88;transform:translateY(-1px);}
-
-/* ── CONFIRMATION CARD ── */
-.confirm-card{border-color:rgba(34,216,122,.25);background:linear-gradient(135deg,var(--green-dim),var(--surface2));}
-.confirm-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-.confirm-tick{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--green),#16a05a);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 16px rgba(34,216,122,.3);}
-.confirm-head h4{font-size:15px;font-weight:900;color:var(--text);}
-.confirm-head p{font-size:11px;color:var(--green);}
-.confirm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.cg-item{background:var(--surface3);border-radius:8px;padding:10px 12px;}
-.cg-label{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
-.cg-val{font-size:13px;font-weight:800;color:var(--text);margin-top:3px;}
-
-/* ── OPTS ── */
-.opts{display:flex;flex-wrap:wrap;gap:8px;max-width:90%;align-self:flex-start;animation:slideUp .3s ease;}
-.opt{background:transparent;border:1.5px solid rgba(10,240,216,.4);color:var(--teal);border-radius:20px;padding:8px 16px;font-size:12.5px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;cursor:pointer;transition:.2s;letter-spacing:.2px;}
-.opt:hover{background:var(--teal-dim);border-color:var(--teal);}
-
-/* ── INPUT ── */
-.chat-footer{padding:12px 14px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0;}
-.inp-row{display:flex;gap:9px;align-items:center;}
-.inp-wrap{flex:1;display:flex;align-items:center;background:var(--surface3);border:1.5px solid var(--border2);border-radius:25px;padding:0 16px;transition:.25s;}
-.inp-wrap:focus-within{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-dim);}
-#user-input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:13.5px;font-family:'Plus Jakarta Sans',sans-serif;padding:12px 0;}
-#user-input::placeholder{color:var(--muted);}
-.send-btn{width:46px;height:46px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#080f1a;font-size:18px;cursor:pointer;box-shadow:0 4px 14px var(--teal-dim);flex-shrink:0;transition:.2s;display:flex;align-items:center;justify-content:center;}
-.send-btn:hover{transform:scale(1.08);}
-.send-btn svg{width:18px;height:18px;fill:#080f1a;}
-
-/* ── SPINNER ── */
-.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(10,240,216,.3);border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite;margin-right:6px;vertical-align:middle;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* ── RESPONSIVE ── */
-@media(max-width:600px){
-  .topbar{padding:10px 14px;}
-  .topbar img{height:36px;}
-  .hero{padding:6px 14px 10px;}
-  .hero h1{font-size:18px;}
-  .cat-grid{grid-template-columns:repeat(3,1fr);gap:7px;}
-  .cat-icon{font-size:22px;}
-  .cat-name{font-size:11px;}
-  .mode-grid{grid-template-columns:1fr 1fr;}
-  .confirm-grid{grid-template-columns:1fr 1fr;}
+/* ── HEADER ── */
+.wa-header{
+  background:var(--wa-header);
+  padding:0 16px;height:56px;
+  display:flex;align-items:center;gap:10px;
+  flex-shrink:0;
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+  z-index:10;
 }
+.wa-back{color:rgba(255,255,255,.8);font-size:22px;text-decoration:none;line-height:1;}
+.wa-avatar{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;}
+.wa-avatar img{width:100%;height:100%;object-fit:contain;background:#fff;border-radius:50%;}
+.wa-hinfo{flex:1;}
+.wa-hinfo .wn{font-size:15px;font-weight:700;color:#fff;line-height:1.2;}
+.wa-hinfo .ws{font-size:12px;color:rgba(255,255,255,.7);}
+.wa-hicons{display:flex;gap:18px;color:rgba(255,255,255,.8);}
+.wa-hicons span{font-size:20px;cursor:pointer;}
+.theme-btn{background:none;border:none;cursor:pointer;font-size:18px;color:rgba(255,255,255,.8);padding:0;}
+
+/* ── CHAT AREA ── */
+.chat-area{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  padding:8px 8px 4px;
+  display:flex;flex-direction:column;gap:2px;
+  scroll-behavior:smooth;
+}
+.chat-area::-webkit-scrollbar{width:6px;}
+.chat-area::-webkit-scrollbar-thumb{background:rgba(0,0,0,.2);border-radius:3px;}
+
+/* ── DATE DIVIDER ── */
+.date-divider{text-align:center;margin:8px 0;}
+.date-divider span{background:var(--wa-bubble-in);color:var(--ink3);font-size:12px;font-weight:600;border-radius:8px;padding:4px 12px;box-shadow:var(--wa-bubble-shadow);}
+
+/* ── BUBBLES ── */
+.msg-row{display:flex;margin-bottom:2px;}
+.msg-row.in{justify-content:flex-start;padding-right:60px;}
+.msg-row.out{justify-content:flex-end;padding-left:60px;}
+
+.bubble{
+  max-width:100%;
+  padding:7px 10px 6px;
+  border-radius:8px;
+  position:relative;
+  box-shadow:var(--wa-bubble-shadow);
+  animation:bubblePop .2s ease;
+  word-break:break-word;
+}
+@keyframes bubblePop{from{opacity:0;transform:scale(.95)translateY(4px);}to{opacity:1;transform:none;}}
+.bubble.in{background:var(--wa-bubble-in);border-top-left-radius:0;color:var(--ink);}
+.bubble.out{background:var(--wa-bubble-out);border-top-right-radius:0;color:var(--ink);}
+
+/* tail */
+.bubble.in::before{content:'';position:absolute;top:0;left:-7px;border:7px solid transparent;border-top-color:var(--wa-bubble-in);border-right:none;}
+.bubble.out::before{content:'';position:absolute;top:0;right:-7px;border:7px solid transparent;border-top-color:var(--wa-bubble-out);border-left:none;}
+
+.bubble .b-text{font-size:14.5px;line-height:1.45;color:var(--ink);}
+.bubble .b-text strong{font-weight:700;}
+.bubble .b-meta{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:2px;}
+.bubble .b-time{font-size:11px;color:var(--ink4);}
+.bubble .b-tick{font-size:12px;color:var(--wa-tick);}
+
+/* typing */
+.typing-bubble{background:var(--wa-bubble-in);padding:12px 16px;border-radius:8px;border-top-left-radius:0;display:flex;gap:4px;align-items:center;box-shadow:var(--wa-bubble-shadow);}
+.typing-bubble span{width:8px;height:8px;background:var(--ink4);border-radius:50%;animation:tdot 1.2s infinite;}
+.typing-bubble span:nth-child(2){animation-delay:.2s;}
+.typing-bubble span:nth-child(3){animation-delay:.4s;}
+@keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-5px);opacity:1;}}
+
+/* ── QUICK REPLY OPTIONS ── */
+.opts-row{display:flex;flex-wrap:wrap;gap:7px;padding:6px 8px 4px;justify-content:flex-end;animation:bubblePop .2s ease;}
+.opt-btn{
+  background:var(--opt-bg);border:1.5px solid var(--opt-border);
+  border-radius:20px;padding:8px 16px;
+  font-size:13.5px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;
+  color:var(--teal2);cursor:pointer;transition:.15s;
+  display:flex;align-items:center;gap:6px;
+}
+.opt-btn:active{transform:scale(.96);}
+.opt-btn:hover,.opt-btn.sel{background:var(--opt-sel);border-color:var(--opt-sel-border);color:var(--teal);}
+
+/* ── INTERACTIVE CARDS ── */
+.card-wrap{padding:4px 8px;width:100%;max-width:360px;animation:bubblePop .25s ease;}
+.wa-card{background:var(--wa-bubble-in);border-radius:10px;overflow:hidden;box-shadow:var(--wa-bubble-shadow);}
+.wa-card .wc-header{background:var(--teal);color:#fff;padding:10px 14px;font-size:13px;font-weight:700;}
+.wa-card .wc-body{padding:12px 14px;}
+
+/* category grid */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.cat-item{border:2px solid var(--opt-border);border-radius:10px;padding:14px 8px;text-align:center;cursor:pointer;transition:.18s;background:var(--opt-bg);}
+.cat-item:hover,.cat-item.sel{border-color:var(--teal3);background:var(--opt-sel);}
+.cat-item .ci-icon{font-size:26px;margin-bottom:6px;}
+.cat-item .ci-name{font-size:12.5px;font-weight:700;color:var(--ink2);}
+.cat-item .ci-sub{font-size:10px;color:var(--ink4);margin-top:2px;}
+
+/* test list */
+.test-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:2px solid var(--opt-border);border-radius:10px;cursor:pointer;transition:.18s;background:var(--opt-bg);margin-bottom:7px;}
+.test-item:last-child{margin-bottom:0;}
+.test-item:hover,.test-item.sel{border-color:var(--teal3);background:var(--opt-sel);}
+.test-icon{width:36px;height:36px;border-radius:9px;background:rgba(18,140,126,.12);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.test-name{font-size:13px;font-weight:700;color:var(--ink2);}
+.test-desc{font-size:11px;color:var(--ink4);margin-top:2px;}
+.test-arrow{margin-left:auto;color:var(--ink4);font-size:18px;}
+
+/* mode cards */
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.mode-item{border:2px solid var(--opt-border);border-radius:12px;padding:16px 12px;text-align:center;cursor:pointer;transition:.18s;background:var(--opt-bg);position:relative;}
+.mode-item:hover,.mode-item.sel{border-color:var(--teal3);background:var(--opt-sel);}
+.mode-item .mi-icon{font-size:30px;margin-bottom:8px;}
+.mode-item .mi-name{font-size:14px;font-weight:800;color:var(--ink);}
+.mode-item .mi-price{font-size:20px;font-weight:900;margin-top:4px;}
+.mode-item.online .mi-price{color:var(--teal2);}
+.mode-item.offline .mi-price{color:#25d366;}
+.mode-item .mi-desc{font-size:11px;color:var(--ink3);margin-top:4px;line-height:1.4;}
+.mode-item .mi-badge{position:absolute;top:8px;right:8px;font-size:9px;font-weight:700;background:rgba(18,140,126,.12);color:var(--teal2);border-radius:20px;padding:2px 7px;}
+
+/* date strip */
+.date-strip{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;}
+.date-strip::-webkit-scrollbar{height:3px;}
+.date-strip::-webkit-scrollbar-thumb{background:var(--opt-border);border-radius:3px;}
+.dc{min-width:56px;border:2px solid var(--opt-border);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:.18s;background:var(--opt-bg);flex-shrink:0;}
+.dc:hover:not(.full),.dc.sel{border-color:var(--teal3);background:var(--opt-sel);}
+.dc.full{opacity:.4;cursor:not-allowed;}
+.dc .d-day{font-size:10px;color:var(--ink3);font-weight:700;text-transform:uppercase;}
+.dc .d-num{font-size:20px;font-weight:900;color:var(--ink);line-height:1.1;}
+.dc .d-mon{font-size:10px;color:var(--ink3);}
+.dc .d-cnt{font-size:9px;font-weight:700;margin-top:3px;color:#25d366;}
+.dc.full .d-cnt{color:#ef4444;}
+
+/* slot grid */
+.slot-grid-wa{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;}
+.sc{border:2px solid var(--opt-border);border-radius:8px;padding:9px 6px;text-align:center;cursor:pointer;transition:.15s;font-size:12.5px;font-weight:700;color:var(--ink2);background:var(--opt-bg);}
+.sc:hover,.sc.sel{border-color:var(--teal3);background:var(--opt-sel);color:var(--teal);}
+
+/* franchise list */
+.fr-wa-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:2px solid var(--opt-border);border-radius:10px;cursor:pointer;transition:.18s;background:var(--opt-bg);margin-bottom:7px;}
+.fr-wa-item:last-child{margin-bottom:0;}
+.fr-wa-item:hover,.fr-wa-item.sel{border-color:var(--teal3);background:var(--opt-sel);}
+.fr-wa-item.near{border-color:#f59e0b;background:#fef3c7;}
+[data-theme="dark"] .fr-wa-item.near{background:rgba(245,158,11,.12);}
+.fr-wa-item.near.sel{border-color:var(--teal3);background:var(--opt-sel);}
+.fr-icon-wa{width:34px;height:34px;border-radius:9px;background:rgba(18,140,126,.12);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.fr-nm{font-size:13px;font-weight:700;color:var(--ink2);}
+.fr-ad{font-size:11px;color:var(--ink4);margin-top:2px;}
+.near-tag{font-size:9px;font-weight:700;color:#92400e;background:#fef3c7;border-radius:20px;padding:1px 6px;margin-left:5px;}
+.fr-arr{margin-left:auto;color:var(--ink4);}
+
+/* location bar */
+.loc-bar{display:flex;align-items:center;gap:8px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:9px;padding:9px 12px;margin-bottom:8px;font-size:12.5px;color:#1e40af;}
+[data-theme="dark"] .loc-bar{color:#93c5fd;}
+.loc-bar .lb-btn{margin-left:auto;background:#3b82f6;color:#fff;border:none;border-radius:7px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;}
+
+/* payment */
+.pay-grid-wa{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:12px;}
+.pay-item{border:2px solid var(--opt-border);border-radius:9px;padding:12px 8px;text-align:center;cursor:pointer;background:var(--opt-bg);}
+.pay-item:hover,.pay-item.sel{border-color:var(--teal3);background:var(--opt-sel);}
+.pay-item .pi-icon{font-size:22px;margin-bottom:4px;}
+.pay-item .pi-name{font-size:12px;font-weight:700;color:var(--ink2);}
+.qr-section-wa{text-align:center;padding:8px 0;}
+.qr-section-wa img{width:130px;height:130px;border-radius:10px;border:3px solid var(--border);object-fit:contain;}
+.upi-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(18,140,126,.1);border:1px solid rgba(18,140,126,.2);border-radius:9px;padding:7px 12px;margin-top:8px;}
+.upi-pill span{font-family:monospace;font-size:12px;color:var(--teal2);font-weight:700;}
+.upi-pill button{background:none;border:none;cursor:pointer;font-size:13px;color:var(--teal2);}
+.amt-row{display:flex;align-items:center;justify-content:space-between;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:9px;padding:10px 14px;margin-bottom:12px;}
+.amt-row span{font-size:12px;color:var(--ink3);font-weight:600;}
+.amt-row strong{font-size:20px;font-weight:900;color:#f59e0b;}
+
+/* summary */
+.sum-wa{display:flex;flex-direction:column;gap:0;}
+.sr{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.sr:last-child{border-bottom:none;}
+.sr .sl{color:var(--ink3);font-weight:600;}
+.sr .sv{font-weight:700;color:var(--ink);}
+.sr .sv.g{color:#25d366;}
+.sr .sv.t{color:var(--teal2);}
+
+/* form fields inside card */
+.field-wa{margin-bottom:12px;}
+.field-wa label{display:block;font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.field-wa input{width:100%;background:var(--wa-input-bg);border:1.5px solid var(--opt-border);border-radius:9px;padding:11px 13px;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--ink);outline:none;transition:.2s;}
+.field-wa input:focus{border-color:var(--teal3);}
+.field-wa .err{font-size:11.5px;color:#ef4444;margin-top:4px;display:none;}
+.field-wa.has-err input{border-color:#ef4444;}
+.field-wa.has-err .err{display:block;}
+.row2-wa{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* send button inside card */
+.wa-send-btn{width:100%;background:var(--teal3);color:#fff;border:none;border-radius:11px;padding:13px;font-size:15px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;}
+.wa-send-btn:hover{background:var(--teal2);}
+.wa-send-btn:disabled{opacity:.5;cursor:not-allowed;}
+.wa-back-btn{width:100%;background:none;border:1.5px solid var(--opt-border);border-radius:11px;padding:11px;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;color:var(--ink2);cursor:pointer;margin-top:8px;}
+
+/* confirm card */
+.confirm-wa{text-align:center;padding:4px 0;}
+.confirm-wa .ck-icon{font-size:48px;margin-bottom:10px;}
+.confirm-wa h3{font-size:18px;font-weight:800;color:var(--ink);margin-bottom:4px;}
+.confirm-wa p{font-size:13px;color:var(--ink3);margin-bottom:16px;}
+.meet-pill{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:10px;padding:12px;margin-bottom:10px;}
+.meet-pill h4{font-size:12px;font-weight:700;color:#1e40af;margin-bottom:6px;}
+[data-theme="dark"] .meet-pill h4{color:#93c5fd;}
+.meet-pill .ml{font-family:monospace;font-size:11px;color:#3b82f6;word-break:break-all;display:flex;align-items:center;justify-content:space-between;gap:6px;background:var(--wa-bubble-in);border-radius:7px;padding:7px 10px;}
+.meet-pill .ml button{background:none;border:none;cursor:pointer;font-size:13px;color:#3b82f6;flex-shrink:0;}
+.join-wa-btn{width:100%;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;border-radius:10px;padding:11px;font-size:13.5px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;cursor:pointer;margin-top:8px;}
+.venue-pill{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:12px;margin-bottom:10px;text-align:left;}
+.venue-pill h4{font-size:12px;font-weight:700;color:#92400e;margin-bottom:6px;}
+[data-theme="dark"] .venue-pill h4{color:#fbbf24;}
+.venue-pill p{font-size:13px;color:var(--ink2);}
+.share-wa-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.sh-wa{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'Plus Jakarta Sans',sans-serif;}
+.sh-wa.wa{background:#25d366;color:#fff;}
+.sh-mail{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);color:#3b82f6;}
+.new-book-btn{width:100%;background:none;border:2px solid var(--teal3);border-radius:10px;padding:11px;font-size:13.5px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;color:var(--teal2);cursor:pointer;margin-top:8px;}
+
+/* ── FOOTER INPUT ── */
+.wa-footer{
+  background:var(--wa-footer);
+  padding:8px 10px;
+  display:flex;align-items:center;gap:8px;
+  flex-shrink:0;
+  border-top:1px solid var(--border);
+}
+.wa-input-wrap{flex:1;display:flex;align-items:center;background:var(--wa-input-bg);border-radius:24px;padding:8px 14px;gap:8px;box-shadow:0 1px 2px rgba(0,0,0,.08);}
+.wa-input-wrap input{flex:1;border:none;outline:none;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;background:transparent;color:var(--ink);}
+.wa-input-wrap input::placeholder{color:var(--ink4);}
+.emoji-btn{font-size:22px;cursor:pointer;color:var(--ink3);line-height:1;}
+.send-fab{width:46px;height:46px;border-radius:50%;background:var(--wa-send);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.2);flex-shrink:0;transition:.18s;}
+.send-fab:active{transform:scale(.92);}
+.send-fab svg{width:22px;height:22px;fill:#fff;}
+
+/* Spinner */
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top:2px solid #fff;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
-<div class="grid-bg"></div>
-<div class="glow-orb"></div>
 
-<div class="topbar">
-  <img src="/static/logo.png" alt="Brain Checkers"/>
-  <div class="topbar-right">
-    <div class="live-pill"><div class="live-dot"></div><span>Available Now</span></div>
-    <a href="/admin/login" class="admin-btn">🔐 Admin</a>
+<!-- ── WHATSAPP HEADER ── -->
+<div class="wa-header">
+  <a href="/" class="wa-back">‹</a>
+  <div class="wa-avatar"><img src="/static/logo.png" alt="BC"/></div>
+  <div class="wa-hinfo">
+    <div class="wn">Brain Checker</div>
+    <div class="ws" id="ws-status">🟢 Online — ready to book</div>
+  </div>
+  <div class="wa-hicons">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+    <a href="/admin/login" style="color:rgba(255,255,255,.8);font-size:18px;text-decoration:none;" title="Admin">🔐</a>
   </div>
 </div>
 
-<div class="hero">
-  <h1>Book Your <em>Assessment Session</em></h1>
-  <p>Decoding Brain Power · Unleashing Opportunities</p>
+<!-- ── CHAT AREA ── -->
+<div class="chat-area" id="chat-area">
+  <div class="date-divider"><span id="today-label">Today</span></div>
 </div>
 
-<div class="chat-wrap">
-  <div class="chat-box">
-    <div class="chat-header">
-      <div class="chat-avatar">🧠</div>
-      <div class="chat-header-info">
-        <h3>Brain Checkers Assistant</h3>
-        <p>Smart booking · Instant confirmation</p>
-      </div>
-      <div class="steps-pill" id="step-label">Step 1 of 7</div>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="progress" style="width:14%"></div></div>
-    <div id="messages"></div>
-    <div class="chat-footer">
-      <div class="inp-row">
-        <div class="inp-wrap">
-          <input id="user-input" placeholder="Type your response…" autocomplete="off"/>
-        </div>
-        <button class="send-btn" onclick="sendMsg()" title="Send">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg>
-        </button>
-      </div>
-    </div>
+<!-- ── FOOTER ── -->
+<div class="wa-footer">
+  <div class="wa-input-wrap">
+    <span class="emoji-btn">😊</span>
+    <input id="txt-input" placeholder="Type a message" autocomplete="off"/>
   </div>
+  <button class="send-fab" onclick="sendText()" id="send-fab">
+    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+  </button>
 </div>
 
 <script>
-const msgBox = document.getElementById('messages');
-const inp    = document.getElementById('user-input');
-const progEl = document.getElementById('progress');
-const stepLbl= document.getElementById('step-label');
-let franchises = [];
+// ── STATE ──
+const S={step:0,name:'',email:'',phone:'',city:'',category:'',test_name:'',mode:'',franchise_id:null,franchise_name:'',franchise_address:'',booking_date:'',slot_id:null,slot_time:'',payment_method:'UPI'};
+const CA=document.getElementById('chat-area');
+const TI=document.getElementById('txt-input');
 
-const STEPS = {0:0, 1:14, 2:28, 3:28, 4:42, 5:42, 51:55, 6:55, 7:70, 8:85, 9:100};
-const STEP_NAMES = {0:'Intro', 1:'Name', 2:'Phone', 3:'Category', 4:'Test', 5:'Mode', 51:'Location', 6:'Date', 7:'Time Slot', 8:'Done', 9:'Done'};
+let allFr=[], slotsByDate={}, allCats=[], allSvcs=[];
+const FLOW=['profile','category','test','mode','schedule','confirm'];
 
-function setStep(s){
-  const pct = STEPS[s] || 0;
-  progEl.style.width = pct + '%';
-  const name = STEP_NAMES[s] || '';
-  const num = s==51?6:Math.min(s+1,7);
-  stepLbl.textContent = name ? name : ('Step '+num+' of 7');
-}
+// ── TIME ──
+function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
 
-function ts(){ return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); }
-function scroll(){ msgBox.scrollTop = msgBox.scrollHeight; }
+// ── SCROLL ──
+function scroll(){CA.scrollTop=CA.scrollHeight;}
 
-function addBubble(text, cls){
-  const w=document.createElement('div'); w.className='bwrap '+cls;
-  const b=document.createElement('div'); b.className='bubble '+cls; b.innerHTML=text;
-  const t=document.createElement('div'); t.className='btime'; t.textContent=ts();
-  w.appendChild(b); w.appendChild(t); msgBox.appendChild(w); scroll();
-  return w;
-}
-
-/* ── CATEGORY CARD ── */
-function addCategoryCard(){
-  const w=document.createElement('div'); w.className='bwrap bot';
-  const card=document.createElement('div'); card.className='card';
-  card.innerHTML=`
-    <div class="card-title" style="color:var(--teal)">👤 Who is this session for?</div>
-    <div class="cat-grid">
-      <div class="cat-btn student" onclick="pickCategory('Student')">
-        <div class="cat-icon">🎓</div>
-        <div class="cat-name">Student</div>
-        <div class="cat-sub">Career & aptitude tests</div>
-      </div>
-      <div class="cat-btn parent" onclick="pickCategory('Parent')">
-        <div class="cat-icon">👨‍👩‍👧</div>
-        <div class="cat-name">Parent</div>
-        <div class="cat-sub">Child assessment</div>
-      </div>
-      <div class="cat-btn corporate" onclick="pickCategory('Corporate')">
-        <div class="cat-icon">🏢</div>
-        <div class="cat-name">Corporate</div>
-        <div class="cat-sub">Team & talent tests</div>
-      </div>
-    </div>`;
-  w.appendChild(card); msgBox.appendChild(w); scroll();
-}
-
-function pickCategory(cat){
-  document.querySelectorAll('.cat-btn').forEach(b=>b.style.pointerEvents='none');
-  const icons={'Student':'🎓','Parent':'👨‍👩‍👧','Corporate':'🏢'};
-  sendMsg('category|'+cat, icons[cat]+' '+cat);
-}
-
-/* ── TEST CARD ── */
-const TEST_META = {
-  DMIT:{ icon:'🧬', color:'var(--teal)',   bg:'var(--teal-dim)',   cls:'dmit', desc:'Dermatoglyphics Multiple Intelligence Test' },
-  GET: { icon:'🧩', color:'var(--violet)', bg:'var(--violet-dim)', cls:'get',  desc:'General Efficiency Test' },
-  MET: { icon:'🧠', color:'var(--amber)',  bg:'var(--amber-dim)',  cls:'met',  desc:'Multiple Efficiency Test' },
-  SAT: { icon:'📊', color:'var(--blue)',   bg:'var(--blue-dim)',   cls:'sat',  desc:'Skills Aptitude Test' },
-  MAT: { icon:'🎯', color:'var(--green)',  bg:'var(--green-dim)',  cls:'mat',  desc:'Management Aptitude Test' },
-  GAT: { icon:'🔍', color:'var(--rose)',   bg:'var(--rose-dim)',   cls:'gat',  desc:'General Aptitude Test' },
-};
-
-function addTestCard(tests){
-  const w=document.createElement('div'); w.className='bwrap bot';
-  const card=document.createElement('div'); card.className='card';
-  const items=tests.map(t=>{
-    const m=TEST_META[t]||{icon:'📋',color:'var(--teal)',bg:'var(--teal-dim)',cls:'dmit',desc:t};
-    return `<div class="test-btn ${m.cls}" onclick="pickTest('${t}')">
-      <div class="test-icon" style="background:${m.bg};color:${m.color}">${m.icon}</div>
-      <div class="test-info">
-        <div class="test-name">${t}</div>
-        <div class="test-desc">${m.desc}</div>
-      </div>
-      <div class="test-arrow">›</div>
-    </div>`;
-  }).join('');
-  card.innerHTML=`<div class="card-title" style="color:var(--violet)">🔬 Select Your Assessment</div><div class="test-grid">${items}</div>`;
-  w.appendChild(card); msgBox.appendChild(w); scroll();
-}
-
-function pickTest(test){
-  document.querySelectorAll('.test-btn').forEach(b=>b.style.pointerEvents='none');
-  sendMsg('test|'+test, '🔬 '+test);
-}
-
-/* ── MODE CARD ── */
-function addModeCard(){
-  const w=document.createElement('div'); w.className='bwrap bot';
-  const card=document.createElement('div'); card.className='card';
-  card.innerHTML=`
-    <div class="card-title" style="color:var(--text)">📡 Choose Consultation Mode</div>
-    <div class="mode-grid">
-      <div class="mode-btn online" onclick="pickMode('Online')">
-        <div class="mode-icon">💻</div>
-        <div class="mode-name">Online</div>
-        <div class="mode-price">₹100</div>
-        <div class="mode-desc">Google Meet · Auto-generated link</div>
-        <div class="mode-tag">VIRTUAL</div>
-      </div>
-      <div class="mode-btn offline" onclick="pickMode('Offline')">
-        <div class="mode-icon">🏢</div>
-        <div class="mode-name">Offline</div>
-        <div class="mode-price">FREE</div>
-        <div class="mode-desc">Visit a Brain Checkers centre</div>
-        <div class="mode-tag">IN-PERSON</div>
-      </div>
-    </div>`;
-  w.appendChild(card); msgBox.appendChild(w); scroll();
-}
-
-function pickMode(mode){
-  document.querySelectorAll('.mode-btn').forEach(b=>b.style.pointerEvents='none');
-  sendMsg(mode, mode==='Online'?'💻 Online — ₹100':'🏢 Offline — FREE');
-}
-
-/* ── FRANCHISE / LOCATION CARD ── */
-async function addLocationCard(autoDetect){
-  if(!franchises.length){
-    const r=await fetch('/api/franchises'); const d=await r.json(); franchises=d.franchises;
-  }
-  const w=document.createElement('div'); w.className='bwrap bot';
-  const card=document.createElement('div'); card.className='card loc-card';
-  
-  let nearestId = null;
-  if(autoDetect){
-    // Try geolocation
-    nearestId = await detectNearestFranchise();
-  }
-
-  const frList=franchises.map((f,i)=>`
-    <div class="fr-item" onclick="pickFranchise(${f.id})">
-      <div class="fr-ico">🏢</div>
-      <div class="fr-info">
-        <div class="fr-name">${f.name}${nearestId===f.id?'<span class="fr-nearest-badge">NEAREST</span>':''}</div>
-        <div class="fr-addr">${f.address}</div>
-      </div>
-      <div class="fr-arrow">›</div>
-    </div>`).join('');
-
-  card.innerHTML=`
-    <div class="card-title">📍 Select Your Centre</div>
-    ${autoDetect?`<div class="loc-detect" onclick="autoPickNearest(${nearestId})">
-      <div class="loc-detect-icon">📡</div>
-      <div class="loc-detect-info">
-        <div class="ld-title">Use Detected Location${nearestId?` · <span style="color:var(--teal)">${franchises.find(f=>f.id===nearestId)?.name||''}</span>`:''}</div>
-        <div class="ld-sub">${nearestId?'Nearest centre auto-selected based on your location':'Detecting your location…'}</div>
-      </div>
-    </div>`:''}
-    <div class="loc-divider"><span>OR CHOOSE MANUALLY</span></div>
-    <div class="fr-list">${frList}</div>`;
-  w.appendChild(card); msgBox.appendChild(w); scroll();
-}
-
-async function detectNearestFranchise(){
-  return new Promise(resolve=>{
-    if(!navigator.geolocation){ resolve(null); return; }
-    navigator.geolocation.getCurrentPosition(pos=>{
-      // Simple nearest by lat/lng distance (franchise coords are approximate)
-      const coords={
-        1:{lat:18.5076,lng:73.8296}, 2:{lat:18.5204,lng:73.9270},
-        3:{lat:19.1209,lng:72.8461}, 4:{lat:19.2183,lng:72.9781},
-        5:{lat:21.1460,lng:79.0787}, 6:{lat:28.6315,lng:77.2167}
-      };
-      const {latitude:lat,longitude:lng}=pos.coords;
-      let nearest=null, minD=Infinity;
-      for(const [id,c] of Object.entries(coords)){
-        const d=Math.sqrt((lat-c.lat)**2+(lng-c.lng)**2);
-        if(d<minD){minD=d;nearest=parseInt(id);}
-      }
-      resolve(nearest);
-    },()=>resolve(null),{timeout:4000});
+// ── BOT MESSAGE ──
+function botMsg(html, delay=0){
+  return new Promise(res=>{
+    setTimeout(()=>{
+      const row=document.createElement('div'); row.className='msg-row in';
+      row.innerHTML=`<div class="bubble in"><div class="b-text">${html}</div><div class="b-meta"><span class="b-time">${now()}</span></div></div>`;
+      CA.appendChild(row); scroll(); res();
+    },delay);
   });
 }
 
-function autoPickNearest(fid){
-  if(!fid){ return; }
-  document.querySelectorAll('.fr-item,.loc-detect').forEach(b=>b.style.pointerEvents='none');
-  sendMsg('franchise|'+fid, '📡 Auto-detected nearest centre');
+// ── USER MESSAGE ──
+function userMsg(text){
+  const row=document.createElement('div'); row.className='msg-row out';
+  row.innerHTML=`<div class="bubble out"><div class="b-text">${text}</div><div class="b-meta"><span class="b-time">${now()}</span><span class="b-tick">✓✓</span></div></div>`;
+  CA.appendChild(row); scroll();
 }
 
-function pickFranchise(fid){
-  document.querySelectorAll('.fr-item,.loc-detect').forEach(b=>b.style.pointerEvents='none');
-  sendMsg('franchise|'+fid, '📍 Centre selected');
+// ── TYPING ──
+function showTyping(){
+  const d=document.createElement('div'); d.className='msg-row in'; d.id='typing';
+  d.innerHTML='<div class="typing-bubble"><span></span><span></span><span></span></div>';
+  CA.appendChild(d); scroll(); return d;
 }
+function hideTyping(){document.getElementById('typing')?.remove();}
 
-/* ── DATE CARD ── */
-async function addDateCard(){
-  const w=document.createElement('div'); w.className='bwrap bot';
-  const card=document.createElement('div'); card.className='card date-card';
-  const today=new Date();
-  const dates=[]; for(let i=0;i<8;i++){const d=new Date(today);d.setDate(today.getDate()+i);dates.push(d.toISOString().split('T')[0]);}
-  const counts={};
-  await Promise.all(dates.map(async dt=>{
-    const r=await fetch('/api/slots?date='+dt); const d=await r.json(); counts[dt]=d.slots.length;
-  }));
-  let chips='';
-  for(let i=0;i<8;i++){
-    const d=new Date(today);d.setDate(today.getDate()+i);
-    const iso=d.toISOString().split('T')[0];
-    const lbl=i===0?'Today':i===1?'Tmrw':d.toLocaleDateString('en-IN',{weekday:'short'});
-    const num=d.getDate(); const mon=d.toLocaleDateString('en-IN',{month:'short'});
-    const cnt=counts[iso]||0; const full=cnt===0;
-    chips+=`<div class="date-chip${full?' no-slots':''}" onclick="${full?'':'pickDate(\''+iso+'\')'}">
-      <div class="dc-label">${lbl}</div>
-      <div class="dc-num">${num}</div>
-      <div class="dc-mon">${mon}</div>
-      ${full?'<div class="dc-full">Full</div>':'<div class="dc-slots">'+cnt+' free</div>'}
-    </div>`;
-  }
-  card.innerHTML=`<div class="card-title">📅 Pick Your Date</div><div class="date-grid">${chips}</div>`;
-  w.appendChild(card); msgBox.appendChild(w); scroll();
-}
-
-function pickDate(iso){
-  document.querySelectorAll('.date-chip').forEach(c=>c.style.pointerEvents='none');
-  const d=new Date(iso); const fmt=d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
-  sendMsg('date|'+iso,'📅 '+fmt);
-}
-
-/* ── SLOT GRID ── */
-function addSlotGrid(opts){
-  const w=document.createElement('div'); w.className='bwrap bot';
-  const card=document.createElement('div'); card.className='card';
-  card.innerHTML=`<div class="card-title" style="color:var(--green)">⏰ Available Time Slots</div><div class="slot-grid"></div>`;
-  const grid=card.querySelector('.slot-grid');
+// ── QUICK REPLY BUTTONS ──
+function addOpts(opts, onSelect){
+  const row=document.createElement('div'); row.className='opts-row';
   opts.forEach(o=>{
-    const[time,sid]=o.split('|');
-    const b=document.createElement('button'); b.className='slot-btn'; b.textContent=time;
-    b.onclick=()=>{ card.style.pointerEvents='none'; sendMsg(o,time); };
-    grid.appendChild(b);
-  });
-  w.appendChild(card); msgBox.appendChild(w); scroll();
-}
-
-/* ── QR CARD ── */
-function addQR(amount){
-  const w=document.createElement('div'); w.className='bwrap bot';
-  w.innerHTML=`<div class="card qr-card">
-    <div class="card-title">💳 Payment Required</div>
-    <div class="qr-amount">₹<span>${amount}</span></div>
-    <div style="text-align:center;font-size:11.5px;color:var(--muted);margin-bottom:8px">Scan with PhonePe · GPay · Paytm · Any UPI App</div>
-    <div class="qr-img-wrap"><img class="qr-img" src="/static/qr.jpeg" alt="UPI QR"/></div>
-    <div class="upi-box">
-      <span class="upi-id">shivamdhote5852@oki</span>
-      <button class="copy-btn" onclick="navigator.clipboard.writeText('shivamdhote5852@oki');this.textContent='✅'">📋</button>
-    </div>
-    <p class="qr-hint">After paying, tap the button below to confirm your slot</p>
-    <button class="confirm-pay-btn" onclick="paymentDone(this)">✅ Payment Done — Confirm My Slot</button>
-  </div>`;
-  msgBox.appendChild(w); scroll();
-}
-
-function paymentDone(btn){
-  btn.closest('.qr-card').style.pointerEvents='none';
-  sendMsg('✅ Payment Done','✅ Payment Done');
-}
-
-/* ── MEET CARD ── */
-function addMeet(link){
-  const w=document.createElement('div'); w.className='bwrap bot';
-  const encoded=encodeURIComponent(link);
-  w.innerHTML=`<div class="card meet-card">
-    <div class="meet-header">
-      <div class="meet-ico">🎥</div>
-      <div class="meet-head-info"><h4>Your Google Meet Link</h4><p>Save this — join at your booked time</p></div>
-    </div>
-    <div class="meet-link-box">
-      <span>${link}</span>
-      <button style="background:none;border:none;color:#93c5fd;cursor:pointer;font-size:14px" onclick="navigator.clipboard.writeText('${link}');this.textContent='✅'">📋</button>
-    </div>
-    <button class="join-btn" onclick="window.open('${link}','_blank')">🎥 Open Google Meet</button>
-    <div class="share-row">
-      <button class="share-btn wa-btn" onclick="window.open('https://wa.me/?text='+encodeURIComponent('Your Brain Checkers Meet Link: ${link}'),'_blank')">📱 Share on WhatsApp</button>
-    </div>
-  </div>`;
-  msgBox.appendChild(w); scroll();
-}
-
-/* ── ADDRESS CARD ── */
-function addAddress(raw){
-  const lines=raw.split('|');
-  const rows=lines.slice(1).map(l=>`<div class="addr-line"><span class="al-icon">▸</span><span>${l}</span></div>`).join('');
-  const q=encodeURIComponent(lines[0]+' '+lines[1]);
-  const w=document.createElement('div'); w.className='bwrap bot';
-  w.innerHTML=`<div class="card addr-card">
-    <div class="addr-header">
-      <div class="addr-ico">📍</div>
-      <div class="addr-head-info"><h4>${lines[0]}</h4><p>Please arrive 10 minutes early</p></div>
-    </div>
-    ${rows}
-    <button class="map-btn" onclick="window.open('https://maps.google.com/?q=${q}','_blank')">🗺 Open in Google Maps</button>
-  </div>`;
-  msgBox.appendChild(w); scroll();
-}
-
-/* ── CONFIRMATION CARD ── */
-function addConfirmation(data){
-  if(!data) return;
-  const w=document.createElement('div'); w.className='bwrap bot';
-  w.innerHTML=`<div class="card confirm-card">
-    <div class="confirm-top">
-      <div class="confirm-tick">✓</div>
-      <div class="confirm-head"><h4>Booking Confirmed!</h4><p>You're all set — see you there</p></div>
-    </div>
-    <div class="confirm-grid">
-      <div class="cg-item"><div class="cg-label">Name</div><div class="cg-val">${data.name||'—'}</div></div>
-      <div class="cg-item"><div class="cg-label">Phone</div><div class="cg-val">${data.phone||'—'}</div></div>
-      <div class="cg-item"><div class="cg-label">Date</div><div class="cg-val">${data.date||'—'}</div></div>
-      <div class="cg-item"><div class="cg-label">Time</div><div class="cg-val">${data.time||'—'}</div></div>
-      <div class="cg-item"><div class="cg-label">Test</div><div class="cg-val">${data.service||'—'}</div></div>
-      <div class="cg-item"><div class="cg-label">Mode</div><div class="cg-val">${data.mode||'—'}</div></div>
-    </div>
-  </div>`;
-  msgBox.appendChild(w); scroll();
-}
-
-/* ── OPTS ── */
-function addOpts(opts){
-  if(!opts||!opts.length) return;
-  const row=document.createElement('div'); row.className='opts';
-  opts.forEach(o=>{
-    const display=o.includes('|')?o.split('|')[0]:o;
-    const b=document.createElement('button'); b.className='opt'; b.textContent=display;
-    b.onclick=()=>{ row.remove(); sendMsg(o,display); };
+    const b=document.createElement('button'); b.className='opt-btn';
+    const label=o.label||o; const val=o.val||o;
+    b.textContent=label;
+    b.onclick=()=>{
+      row.querySelectorAll('.opt-btn').forEach(x=>{x.disabled=true;x.style.opacity='.5';});
+      b.classList.add('sel'); b.style.opacity='1';
+      userMsg(label);
+      setTimeout(()=>onSelect(val,label),100);
+    };
     row.appendChild(b);
   });
-  msgBox.appendChild(row); scroll();
+  CA.appendChild(row); scroll();
 }
 
-/* ── TYPING ── */
-function showTyping(){
-  const d=document.createElement('div'); d.className='typing'; d.id='typing';
-  d.innerHTML='<span></span><span></span><span></span>';
-  msgBox.appendChild(d); scroll();
+// ── CARD WRAPPER ── (appears as incoming bubble)
+function cardWrap(innerHTML, align='in'){
+  const row=document.createElement('div'); row.className=`msg-row ${align}`;
+  row.style.paddingRight='0';row.style.paddingLeft='0';
+  const wrap=document.createElement('div'); wrap.className='card-wrap';
+  wrap.innerHTML=innerHTML;
+  row.appendChild(wrap); CA.appendChild(row); scroll();
+  return wrap;
 }
 
-/* ── SEND ── */
-async function sendMsg(val, display){
-  const msg=val||inp.value.trim(); if(!msg) return;
-  const shown=display!==undefined?display:msg;
-  if(!val) inp.value='';
-  addBubble(shown,'user');
-  showTyping();
+// ══════════════════════════════
+//  STEP 0 — GREETING + PROFILE
+// ══════════════════════════════
+async function startFlow(){
+  document.getElementById('today-label').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  const t=showTyping();
+  await new Promise(r=>setTimeout(r,800));
+  t.remove();
+  await botMsg('👋 Hi! I\'m the <strong>Brain Checker</strong> assistant.');
+  await botMsg('I\'ll help you book your assessment session in a few quick steps. 🧠',400);
+  await botMsg('First, please share your basic details below 👇',400);
+  showProfileForm();
+}
+
+function showProfileForm(){
+  cardWrap(`<div class="wa-card">
+    <div class="wc-header">📋 Your Details</div>
+    <div class="wc-body">
+      <div class="row2-wa">
+        <div class="field-wa" id="fw-name"><label>Full Name *</label><input id="inp-name" placeholder="e.g. Rahul Sharma" type="text"/><div class="err" id="err-name"></div></div>
+        <div class="field-wa" id="fw-phone"><label>Mobile *</label><input id="inp-phone" placeholder="10-digit" type="tel"/><div class="err" id="err-phone"></div></div>
+      </div>
+      <div class="row2-wa">
+        <div class="field-wa" id="fw-email"><label>Email *</label><input id="inp-email" placeholder="you@email.com" type="email"/><div class="err" id="err-email"></div></div>
+        <div class="field-wa"><label>City</label><input id="inp-city" placeholder="Your city" type="text"/></div>
+      </div>
+      <button class="wa-send-btn" onclick="submitProfile()">Continue →</button>
+    </div>
+  </div>`);
+}
+
+function fErr(fw,ei,msg){document.getElementById(fw).classList.add('has-err');document.getElementById(ei).textContent=msg;}
+function fOk(fw){document.getElementById(fw)?.classList.remove('has-err');}
+
+async function submitProfile(){
+  const n=document.getElementById('inp-name').value.trim();
+  const p=document.getElementById('inp-phone').value.trim().replace(/\D/g,'');
+  const e=document.getElementById('inp-email').value.trim();
+  let ok=true;
+  if(n.length<2||!/^[A-Za-z\s]+$/.test(n)){fErr('fw-name','err-name','Letters only, min 2 chars');ok=false;}else fOk('fw-name');
+  if(!/^[6-9]\d{9}$/.test(p)){fErr('fw-phone','err-phone','Valid 10-digit Indian number');ok=false;}else fOk('fw-phone');
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){fErr('fw-email','err-email','Valid email required');ok=false;}else fOk('fw-email');
+  if(!ok) return;
+  S.name=n.replace(/\b\w/g,c=>c.toUpperCase()); S.phone=p; S.email=e; S.city=document.getElementById('inp-city').value.trim();
+  // lock form
+  document.querySelectorAll('.wa-card input,.wa-card .wa-send-btn').forEach(el=>{el.disabled=true;});
+  userMsg(`${S.name} · ${S.phone} · ${S.email}`);
+  const t=showTyping(); await new Promise(r=>setTimeout(r,600)); t.remove();
+  await botMsg(`Great, <strong>${S.name}</strong>! 🎉`);
+  showCategoryStep();
+}
+
+// ══════════════════════════════
+//  STEP 1 — CATEGORY
+// ══════════════════════════════
+async function showCategoryStep(){
+  await botMsg('Who is this assessment for? 👇',300);
+  const cats=allCats.length?allCats:[{name:'Student',icon:'🎓',sub:'Age 6–22'},{name:'Parent',icon:'👨‍👩‍👧',sub:'For your child'},{name:'Corporate',icon:'💼',sub:'Professional'}];
+  const items=cats.map(c=>`<div class="cat-item" onclick="pickCat('${c.name||c}',this)"><div class="ci-icon">${c.icon||'📋'}</div><div class="ci-name">${c.name||c}</div><div class="ci-sub">${c.sub||''}</div></div>`).join('');
+  cardWrap(`<div class="wa-card"><div class="wc-header">📁 Select Category</div><div class="wc-body"><div class="cat-grid">${items}</div></div></div>`);
+}
+
+async function pickCat(cat, el){
+  document.querySelectorAll('.cat-item').forEach(c=>{c.style.pointerEvents='none';c.style.opacity='.5';});
+  el.style.opacity='1'; el.classList.add('sel');
+  S.category=cat;
+  userMsg(`${cat}`);
+  const t=showTyping(); await new Promise(r=>setTimeout(r,500)); t.remove();
+  showTestStep(cat);
+}
+
+// ══════════════════════════════
+//  STEP 2 — TEST
+// ══════════════════════════════
+async function showTestStep(cat){
+  await botMsg(`Select the assessment for <strong>${cat}</strong>:`,200);
+  const testIconMap={'DMIT':'🧬','GET':'📊','MET':'🎯','SAT':'⚙️','MAT':'📈','GAT':'🔬'};
+  // Use public API endpoint — no auth required
+  let svcs=[];
   try{
-    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})});
-    const data=await r.json();
-    document.getElementById('typing')?.remove();
-    
-    if(data.step!==undefined) setStep(data.step);
-    
-    let slotOptsHandled=false;
-    for(const [type,content] of data.responses){
-      await new Promise(res=>setTimeout(res,160));
-      if(type==='category_select'){ addCategoryCard(); }
-      else if(type==='test_select'){ addTestCard(JSON.parse(content)); }
-      else if(type==='mode_select'){ addModeCard(); }
-      else if(type==='franchise_select'){ await addLocationCard(true); }
-      else if(type==='date_select'){ await addDateCard(); }
-      else if(type==='slot_select'){ addSlotGrid(JSON.parse(content)); slotOptsHandled=true; }
-      else if(type==='qr'){ addQR(content); }
-      else if(type==='meet'){ addMeet(content); }
-      else if(type==='address'){ addAddress(content); }
-      else if(type==='confirmation'){ addConfirmation(JSON.parse(content)); }
-      else if(type==='bot'||type==='error'){ addBubble(content,type); }
-    }
-    if(!slotOptsHandled && data.options && data.options.length) addOpts(data.options);
-  }catch(e){
-    document.getElementById('typing')?.remove();
-    addBubble('Connection error. Please try again.','error');
+    const r=await fetch('/api/tests/'+encodeURIComponent(cat));
+    const d=await r.json();
+    svcs=d.tests||[];
+  }catch(e){}
+  // Hardcoded fallback if DB empty
+  if(!svcs.length){
+    const defaults={
+      Student:[{name:'DMIT – Dermatoglyphics Multiple Intelligence Test',code:'DMIT',description:'Fingerprint-based intelligence mapping',icon:'🧬'},{name:'GET – General Evaluation Test',code:'GET',description:'Comprehensive skill evaluation',icon:'📊'},{name:'MET – Multiple Evaluation Test',code:'MET',description:'Multi-domain performance test',icon:'🎯'}],
+      Parent:[{name:'DMIT – Dermatoglyphics Multiple Intelligence Test',code:'DMIT',description:'Understand your child\'s potential',icon:'🧬'},{name:'GET – General Evaluation Test',code:'GET',description:'General child assessment',icon:'📊'},{name:'MET – Multiple Evaluation Test',code:'MET',description:'Full evaluation for your child',icon:'🎯'}],
+      Corporate:[{name:'SAT – Skills Assessment Test',code:'SAT',description:'Professional skills analysis',icon:'⚙️'},{name:'MAT – Management Aptitude Test',code:'MAT',description:'Leadership and management test',icon:'📈'},{name:'GAT – General Aptitude Test',code:'GAT',description:'Comprehensive aptitude assessment',icon:'🔬'}]
+    };
+    svcs=defaults[cat]||[];
+  }
+  const items=svcs.length?svcs.map(s=>{
+    const safeName=(s.name||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const code=(s.name||s.code||'').split('–')[0].trim();
+    const desc=(s.name||'').includes('–')?(s.name.split('–')[1]||'').trim():s.description||'';
+    return `<div class="test-item" onclick="pickTest('${safeName}',this)">
+      <div class="test-icon">${s.icon||testIconMap[s.code]||'📋'}</div>
+      <div><div class="test-name">${code}</div><div class="test-desc">${desc}</div></div>
+      <div class="test-arrow">›</div>
+    </div>`;
+  }).join('')
+  :`<div style="color:var(--ink3);font-size:13px;padding:8px 0">No tests found for ${cat}</div>`;
+  cardWrap(`<div class="wa-card"><div class="wc-header">🧪 Choose Your Test</div><div class="wc-body">${items}</div></div>`);
+}
+
+async function pickTest(name, el){
+  document.querySelectorAll('.test-item').forEach(c=>{c.style.pointerEvents='none';c.style.opacity='.5';});
+  el.style.opacity='1'; el.classList.add('sel');
+  S.test_name=name;
+  const code=name.split('–')[0].trim();
+  userMsg(code);
+  const t=showTyping(); await new Promise(r=>setTimeout(r,500)); t.remove();
+  showModeStep();
+}
+
+// ══════════════════════════════
+//  STEP 3 — MODE
+// ══════════════════════════════
+async function showModeStep(){
+  await botMsg('How would you like to attend? 👇',200);
+  cardWrap(`<div class="wa-card"><div class="wc-header">📡 Consultation Mode</div><div class="wc-body">
+    <div class="mode-grid">
+      <div class="mode-item online" onclick="pickMode('Online',this)">
+        <div class="mi-badge">Meet</div>
+        <div class="mi-icon">💻</div><div class="mi-name">Online</div>
+        <div class="mi-price">₹100</div>
+        <div class="mi-desc">Video session, Meet link sent after booking</div>
+      </div>
+      <div class="mode-item offline" onclick="pickMode('Offline',this)">
+        <div class="mi-badge">Walk-in</div>
+        <div class="mi-icon">📍</div><div class="mi-name">Offline</div>
+        <div class="mi-price">FREE</div>
+        <div class="mi-desc">Visit nearest Brain Checker centre</div>
+      </div>
+    </div>
+  </div></div>`);
+}
+
+async function pickMode(mode, el){
+  document.querySelectorAll('.mode-item').forEach(c=>{c.style.pointerEvents='none';c.style.opacity='.5';});
+  el.style.opacity='1'; el.classList.add('sel');
+  S.mode=mode; S.franchise_id=null; S.franchise_name=''; S.franchise_address='';
+  userMsg(mode==='Online'?'💻 Online — ₹100':'📍 Offline — FREE');
+  const t=showTyping(); await new Promise(r=>setTimeout(r,500)); t.remove();
+  showScheduleStep();
+}
+
+// ══════════════════════════════
+//  STEP 4 — SCHEDULE
+// ══════════════════════════════
+async function showScheduleStep(){
+  await botMsg('Pick your preferred date 📅',200);
+  // load slots for next 7 days
+  const today=new Date(); const dates=[];
+  for(let i=0;i<7;i++){const d=new Date(today);d.setDate(today.getDate()+i);dates.push(d.toISOString().split('T')[0]);}
+  await Promise.all(dates.map(async ds=>{
+    const r=await fetch('/api/slots?date='+ds);const d=await r.json();
+    slotsByDate[ds]=d.slots;
+  }));
+  const chips=dates.map((ds,i)=>{
+    const d=new Date(ds); const cnt=(slotsByDate[ds]||[]).length;
+    const full=cnt===0;
+    return `<div class="dc${full?' full':''}" onclick="${full?'':'pickDate(\''+ds+'\',this)'}">
+      <div class="d-day">${i===0?'Today':i===1?'Tmrw':d.toLocaleDateString('en-IN',{weekday:'short'})}</div>
+      <div class="d-num">${d.getDate()}</div>
+      <div class="d-mon">${d.toLocaleDateString('en-IN',{month:'short'})}</div>
+      <div class="d-cnt">${full?'Full':cnt+' free'}</div>
+    </div>`;
+  }).join('');
+  cardWrap(`<div class="wa-card"><div class="wc-header">📅 Select Date</div><div class="wc-body"><div class="date-strip" id="date-strip">${chips}</div></div></div>`);
+}
+
+async function pickDate(ds, el){
+  document.querySelectorAll('.dc').forEach(c=>{c.classList.remove('sel');});
+  el.classList.add('sel');
+  S.booking_date=ds; S.slot_id=null; S.slot_time='';
+  const fmt=new Date(ds).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  userMsg('📅 '+fmt);
+  const t=showTyping(); await new Promise(r=>setTimeout(r,400)); t.remove();
+  showSlots(ds);
+}
+
+async function showSlots(ds){
+  const slots=slotsByDate[ds]||[];
+  if(!slots.length){await botMsg('No slots available for this date. Please pick another.'); return;}
+  await botMsg('Choose a time slot ⏰',200);
+  const chips=slots.map(s=>`<div class="sc" onclick="pickSlot(${s.id},'${s.slot_time}',this)">${s.slot_time}</div>`).join('');
+  cardWrap(`<div class="wa-card"><div class="wc-header">🕐 Available Slots</div><div class="wc-body"><div class="slot-grid-wa">${chips}</div></div></div>`);
+}
+
+async function pickSlot(id,time,el){
+  document.querySelectorAll('.sc').forEach(c=>{c.style.pointerEvents='none';c.style.opacity='.5';});
+  el.style.opacity='1'; el.classList.add('sel');
+  S.slot_id=id; S.slot_time=time;
+  userMsg('⏰ '+time);
+  const t=showTyping(); await new Promise(r=>setTimeout(r,400)); t.remove();
+  if(S.mode==='Offline'){
+    showFranchiseStep();
+  } else {
+    showConfirmStep();
   }
 }
 
-inp.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey) sendMsg(); });
+// ══════════════════════════════
+//  FRANCHISE (offline only)
+// ══════════════════════════════
+async function showFranchiseStep(){
+  if(!allFr.length){const r=await fetch('/api/franchises');const d=await r.json();allFr=d.franchises;}
+  await botMsg('Select your nearest franchise centre 🏢',200);
+  buildFrList(null);
+}
 
-/* ── INIT ── */
-(async()=>{
-  await fetch('/api/reset',{method:'POST'});
-  const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:''})});
-  const d=await r.json();
-  if(d.step!==undefined) setStep(d.step);
-  for(const [type,content] of d.responses){
-    if(type==='category_select') addCategoryCard();
-    else if(type==='bot'||type==='error') addBubble(content,type);
+function buildFrList(nearId){
+  // remove old fr cards
+  document.querySelectorAll('.fr-wa-card-row').forEach(e=>e.remove());
+  const items=allFr.map(f=>`
+    <div class="fr-wa-item${nearId===f.id?' near':''}" id="fr-${f.id}" onclick="pickFr(${f.id},this)">
+      <div class="fr-icon-wa">🏢</div>
+      <div><div class="fr-nm">${f.name}${nearId===f.id?'<span class="near-tag">Nearest</span>':''}</div><div class="fr-ad">${f.address}</div></div>
+      <div class="fr-arr">›</div>
+    </div>`).join('');
+  const wrap=cardWrap(`<div class="wa-card">
+    <div class="wc-header">📍 Select Franchise</div>
+    <div class="wc-body">
+      <div class="loc-bar"><span>📡</span><span id="loc-txt">Auto-detect nearest centre</span><button class="lb-btn" onclick="detectLoc()">Detect</button></div>
+      ${items}
+    </div>
+  </div>`);
+  wrap.parentElement.classList.add('fr-wa-card-row');
+}
+
+async function detectLoc(){
+  const btn=document.querySelector('.lb-btn'), txt=document.getElementById('loc-txt');
+  btn.textContent='Detecting…'; btn.disabled=true;
+  try{
+    const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{timeout:8000}));
+    const {latitude:la,longitude:ln}=pos.coords;
+    const dist=(f)=>Math.sqrt((la-f.lat)**2+(ln-f.lng)**2);
+    const near=allFr.reduce((p,c)=>dist(c)<dist(p)?c:p);
+    txt.textContent='📍 Nearest: '+near.name; btn.textContent='✅'; btn.disabled=true;
+    buildFrList(near.id);
+    S.franchise_id=near.id; S.franchise_name=near.name; S.franchise_address=near.address;
+    document.querySelector(`#fr-${near.id}`)?.classList.add('sel');
+  }catch(e){txt.textContent='Denied — select manually'; btn.textContent='Retry'; btn.disabled=false;}
+}
+
+async function pickFr(id, el){
+  document.querySelectorAll('.fr-wa-item').forEach(c=>{c.style.pointerEvents='none';c.style.opacity='.5';});
+  el.style.opacity='1'; el.classList.add('sel');
+  const fr=allFr.find(f=>f.id===id);
+  S.franchise_id=fr.id; S.franchise_name=fr.name; S.franchise_address=fr.address;
+  userMsg('🏢 '+fr.name);
+  const t=showTyping(); await new Promise(r=>setTimeout(r,400)); t.remove();
+  showConfirmStep();
+}
+
+// ══════════════════════════════
+//  STEP 5 — CONFIRM / PAY
+// ══════════════════════════════
+async function showConfirmStep(){
+  if(S.mode==='Online'){
+    await botMsg('Almost done! Please complete the payment of <strong>₹100</strong> 💳',200);
+    showPaymentCard();
+  } else {
+    await botMsg('Please review your booking details ✅',200);
+    showReviewCard();
   }
-  if(d.options) addOpts(d.options);
+}
+
+function showPaymentCard(){
+  const bdate=new Date(S.booking_date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  const rows=buildSummaryRows(bdate);
+  cardWrap(`<div class="wa-card">
+    <div class="wc-header">💳 Payment & Confirmation</div>
+    <div class="wc-body">
+      <div class="sum-wa">${rows}</div>
+      <div style="margin:12px 0 8px;border-top:1px solid var(--border);padding-top:12px">
+        <div class="amt-row"><span>Amount Due</span><strong>₹100</strong></div>
+        <div class="pay-grid-wa">
+          <div class="pay-item sel" onclick="pickPay('UPI',this)"><div class="pi-icon">📱</div><div class="pi-name">UPI/QR</div></div>
+          <div class="pay-item" onclick="pickPay('Card',this)"><div class="pi-icon">💳</div><div class="pi-name">Card</div></div>
+          <div class="pay-item" onclick="pickPay('NetBanking',this)"><div class="pi-icon">🏦</div><div class="pi-name">Net Banking</div></div>
+        </div>
+        <div class="qr-section-wa" id="qr-wa">
+          <img src="/static/qr.jpeg" alt="UPI QR"/>
+          <div><div class="upi-pill"><span>shivamdhote5852@oki</span><button onclick="navigator.clipboard.writeText('shivamdhote5852@oki');this.textContent='✅'">📋</button></div></div>
+        </div>
+      </div>
+      <button class="wa-send-btn" id="btn-confirm" onclick="submitBooking()">✅ Confirm & Book</button>
+    </div>
+  </div>`);
+}
+
+function showReviewCard(){
+  const bdate=new Date(S.booking_date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  const rows=buildSummaryRows(bdate);
+  cardWrap(`<div class="wa-card">
+    <div class="wc-header">📋 Review Booking</div>
+    <div class="wc-body">
+      <div class="sum-wa">${rows}</div>
+      <button class="wa-send-btn" style="margin-top:14px" id="btn-confirm" onclick="submitBooking()">✅ Confirm Booking — FREE</button>
+    </div>
+  </div>`);
+}
+
+function buildSummaryRows(bdate){
+  const arr=[['Name',S.name],['Phone',S.phone],['Category',S.category],['Test',S.test_name.split('–')[0].trim()],['Mode',S.mode],['Date',bdate],['Time',S.slot_time]];
+  if(S.mode==='Offline') arr.push(['Centre',S.franchise_name]);
+  arr.push(['Amount',S.mode==='Online'?'₹100':'FREE ✅']);
+  return arr.map(([l,v])=>`<div class="sr"><span class="sl">${l}</span><span class="sv${v==='FREE ✅'?' g':v==='₹100'?' t':''}">${v}</span></div>`).join('');
+}
+
+function pickPay(m,el){
+  document.querySelectorAll('.pay-item').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel'); S.payment_method=m;
+  document.getElementById('qr-wa').style.display=m==='UPI'?'block':'none';
+}
+
+async function submitBooking(){
+  const btn=document.getElementById('btn-confirm');
+  btn.disabled=true; btn.innerHTML='<div class="spinner"></div> Booking…';
+  try{
+    const r=await fetch('/api/book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      name:S.name,email:S.email,phone:S.phone,city:S.city,
+      category:S.category,test_name:S.test_name,mode:S.mode,
+      franchise_id:S.franchise_id,booking_date:S.booking_date,
+      slot_id:S.slot_id,slot_time:S.slot_time,payment_method:S.payment_method
+    })});
+    const d=await r.json();
+    if(!d.ok){
+      btn.disabled=false; btn.textContent='Try Again';
+      await botMsg('⚠️ '+(d.errors?.slot_id||'Something went wrong. Please try again.'));
+      return;
+    }
+    showBookingConfirmation(d);
+  }catch(e){
+    btn.disabled=false; btn.textContent='Retry';
+    await botMsg('⚠️ Connection error. Please try again.');
+  }
+}
+
+async function showBookingConfirmation(d){
+  // lock all cards
+  document.querySelectorAll('.wa-card input,.wa-card button,.wa-card .cat-item,.wa-card .test-item,.wa-card .mode-item,.wa-card .sc,.wa-card .dc,.wa-card .fr-wa-item,.wa-card .pay-item').forEach(e=>{e.style.pointerEvents='none';e.disabled=true;});
+  userMsg('Booking confirmed! 🎉');
+  const t=showTyping(); await new Promise(r=>setTimeout(r,700)); t.remove();
+  await botMsg(`🥳 <strong>Booking Confirmed, ${d.name}!</strong>`);
+  const meet_html=d.meet_link?`
+    <div class="meet-pill">
+      <h4>🎥 Your Google Meet Link</h4>
+      <div class="ml"><span>${d.meet_link}</span><button onclick="navigator.clipboard.writeText('${d.meet_link}');this.textContent='✅'">📋</button></div>
+      <button class="join-wa-btn" onclick="window.open('${d.meet_link}','_blank')">🎥 Join Google Meet</button>
+    </div>`:'';
+  const venue_html=d.franchise_name?`
+    <div class="venue-pill">
+      <h4>📍 Your Venue</h4>
+      <p style="font-weight:700;margin-bottom:4px">${d.franchise_name}</p>
+      <p>${d.franchise_address}</p>
+    </div>`:'';
+  cardWrap(`<div class="wa-card">
+    <div class="wc-header" style="background:#25d366">✅ Booking Confirmed!</div>
+    <div class="wc-body">
+      <div class="confirm-wa">
+        <div class="ck-icon">🎊</div>
+        <h3>You're all set!</h3>
+        <p>📅 ${d.booking_date} &nbsp;⏰ ${d.slot_time}</p>
+      </div>
+      ${meet_html}
+      ${venue_html}
+      <div class="share-wa-row">
+        <button class="sh-wa wa" onclick="window.open('${d.whatsapp_url}','_blank')">📱 WhatsApp</button>
+        <button class="sh-wa sh-mail" onclick="window.open('${d.mailto_url}','_blank')">✉️ Email</button>
+      </div>
+      <button class="new-book-btn" onclick="newBooking()">+ New Booking</button>
+    </div>
+  </div>`);
+  TI.disabled=true;
+  document.getElementById('send-fab').style.opacity='.4';
+  document.getElementById('send-fab').style.pointerEvents='none';
+}
+
+async function newBooking(){
+  // reset state
+  Object.assign(S,{step:0,name:'',email:'',phone:'',city:'',category:'',test_name:'',mode:'',franchise_id:null,franchise_name:'',franchise_address:'',booking_date:'',slot_id:null,slot_time:'',payment_method:'UPI'});
+  // clear chat
+  CA.innerHTML='<div class="date-divider"><span id="today-label"></span></div>';
+  TI.disabled=false;
+  document.getElementById('send-fab').style.opacity='';
+  document.getElementById('send-fab').style.pointerEvents='';
+  startFlow();
+}
+
+// ── TEXT INPUT ──
+TI.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();sendText();}});
+function sendText(){
+  const v=TI.value.trim(); if(!v) return;
+  TI.value='';
+  userMsg(v);
+  setTimeout(()=>botMsg('Please use the options above to continue your booking 😊'),400);
+}
+
+// ── THEME ──
+function toggleTheme(){
+  const h=document.documentElement,d=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',d?'light':'dark');
+  document.getElementById('theme-btn').textContent=d?'🌙':'☀️';
+  localStorage.setItem('bc-theme',d?'light':'dark');
+}
+(()=>{
+  const t=localStorage.getItem('bc-theme')||'light';
+  document.documentElement.setAttribute('data-theme',t);
+  const b=document.getElementById('theme-btn');
+  if(b) b.textContent=t==='dark'?'☀️':'🌙';
+})();
+
+// ── INIT ──
+(async()=>{
+  try{
+    // Only use public endpoints — no admin auth required
+    const cr=await fetch('/api/categories');
+    const cd=await cr.json();
+    allCats=cd.categories||[];
+    // If DB returned empty categories, use defaults
+    if(!allCats.length){
+      allCats=[{name:'Student',icon:'🎓'},{name:'Parent',icon:'👨‍👩‍👧'},{name:'Corporate',icon:'💼'}];
+    }
+  }catch(e){
+    allCats=[{name:'Student',icon:'🎓'},{name:'Parent',icon:'👨‍👩‍👧'},{name:'Corporate',icon:'💼'}];
+  }
+  startFlow();
 })();
 </script>
 </body>
